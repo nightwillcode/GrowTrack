@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
-class Project extends Model
+class Task extends Model
 {
     use HasFactory;
 
@@ -15,22 +15,25 @@ class Project extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
+        'project_id',
         'name',
         'description',
-        'user_id',
+        'status',
+        'started_at',
+        'finished_at',
     ];
 
     protected static function booted(): void
     {
-        static::creating(function ($project) {
-            if (!$project->id) {
-                $project->id = (string) Str::uuid();
+        static::creating(function ($task) {
+            if (!$task->id) {
+                $task->id = (string) Str::uuid();
             }
         });
     }
 
-    public function user(): BelongsTo
+    public function project(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Project::class);
     }
 }
