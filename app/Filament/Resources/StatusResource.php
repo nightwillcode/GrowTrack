@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProjectResource\Pages;
-use App\Filament\Resources\ProjectResource\RelationManagers;
-use App\Models\Project;
+use App\Filament\Resources\StatusResource\Pages;
+use App\Filament\Resources\StatusResource\RelationManagers;
+use App\Models\Status;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -17,9 +17,9 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 
-class ProjectResource extends Resource
+class StatusResource extends Resource
 {
-    protected static ?string $model = Project::class;
+    protected static ?string $model = Status::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -36,13 +36,6 @@ class ProjectResource extends Resource
                     ->rows(4)
                     ->maxLength(1000)
                     ->nullable(),
-
-                Select::make('user_id')
-                    ->label('Owner')
-                    ->options(fn () => \App\Models\User::pluck('name', 'id'))
-                    ->searchable()
-                    ->required()
-                    ->dehydrated(false),
             ]);
     }
 
@@ -52,10 +45,8 @@ class ProjectResource extends Resource
             ->columns([
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('description')->limit(50),
-                TextColumn::make('owner.user.name')->label('Owner')->sortable(),
                 TextColumn::make('created_at')->dateTime()->label('Created'),
             ])
-            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
@@ -69,6 +60,22 @@ class ProjectResource extends Resource
             ]);
     }
 
+    public static function getSlug(): string
+    {
+        return 'status'; // ubah ke singular
+    }
+
+
+    public static function getModelLabel(): string
+    {
+        return 'Status';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Status';
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -79,15 +86,9 @@ class ProjectResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProject::route('/'),
-            'create' => Pages\CreateProject::route('/create'),
-            'edit' => Pages\EditProject::route('/{record}/edit'),
+            'index' => Pages\ListStatus::route('/'),
+            'create' => Pages\CreateStatus::route('/create'),
+            'edit' => Pages\EditStatus::route('/{record}/edit'),
         ];
     }
-
-    public static function getModel(): string
-    {
-        return Project::class;
-    }
-
 }

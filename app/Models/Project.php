@@ -30,4 +30,16 @@ class Project extends Model
             }
         });
     }
+
+    public function projectRoles()
+    {
+        return $this->hasMany(ProjectRole::class);
+    }
+
+    public function owner()
+    {
+        $ownerRoleId = Role::where('name', 'owner')->value('id');
+
+        return $this->hasOne(ProjectRole::class)->where('role_id', $ownerRoleId)->with('user');
+    }
 }

@@ -43,12 +43,10 @@ class TaskResource extends Resource
                     ->maxLength(1000)
                     ->rows(4),
 
-                Select::make('status')
-                    ->options([
-                        'pending' => 'Pending',
-                        'in_progress' => 'In Progress',
-                        'completed' => 'Completed',
-                    ])
+                Select::make('status_id')
+                    ->label('Status')
+                    ->options(fn () => \App\Models\Status::pluck('name', 'id'))
+                    ->searchable()
                     ->required(),
 
                 Select::make('user_id')
@@ -77,7 +75,7 @@ class TaskResource extends Resource
             ->columns([
                 TextColumn::make('name')->sortable()->searchable(),
                 TextColumn::make('project.name')->label('Project')->sortable(),
-                TextColumn::make('status')->badge()->sortable(),
+                TextColumn::make('status.name')->badge()->sortable(),
                 TextColumn::make('visible_at')->date()->label('Visible'),
                 TextColumn::make('started_at')->date()->label('Start'),
                 TextColumn::make('finished_at')->date()->label('Finish'),

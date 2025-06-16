@@ -19,7 +19,7 @@ class ProjectRole extends Model
     protected $fillable = [
         'project_id',
         'user_id',
-        'role',
+        'role_id',
     ];
 
     // Auto-generate UUID for 'id' when creating
@@ -40,5 +40,10 @@ class ProjectRole extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
     }
 }

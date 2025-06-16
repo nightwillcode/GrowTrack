@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
+            $table->uuid('status_id');
+            $table->foreign('status_id')->references('id')->on('status')->onDelete('cascade');
             $table->timestamp('visible_at')->nullable()->useCurrent();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('finished_at')->nullable();

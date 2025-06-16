@@ -33,15 +33,19 @@ class ProjectRoleResource extends Resource
                     ->label('Owner')
                     ->options(fn () => User::pluck('name', 'id'))
                     ->searchable()
-                    ->required()
-                    ->dehydrated(false),
+                    ->required(),
+
+                Select::make('status_id')
+                    ->label('Project')
+                    ->options(fn () => Project::pluck('name', 'id'))
+                    ->searchable()
+                    ->required(),
 
                 Select::make('project_id')
                     ->label('Project')
                     ->options(fn () => Project::pluck('name', 'id'))
                     ->searchable()
-                    ->required()
-                    ->dehydrated(false),
+                    ->required(),
 
                 Select::make('role')
                     ->options([
@@ -59,7 +63,7 @@ class ProjectRoleResource extends Resource
             ->columns([
                 TextColumn::make('user.name')->label('User')->sortable(),
                 TextColumn::make('project.name')->label('Project')->sortable(),
-                TextColumn::make('role')->label('Role')->sortable(),
+                TextColumn::make('role.name')->label('Role')->sortable(),
                 TextColumn::make('created_at')->dateTime()->label('Created'),
             ])
             ->defaultSort('created_at', 'desc')

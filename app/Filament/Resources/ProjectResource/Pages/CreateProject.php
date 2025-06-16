@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use App\Models\Project;
 use App\Models\ProjectRole;
+use App\Models\Role;
 
 class CreateProject extends CreateRecord
 {
@@ -17,11 +18,16 @@ class CreateProject extends CreateRecord
         $userId = $this->form->getRawState()['user_id'];
         $project = Project::create($data);
 
+        $role = Role::firstOrCreate(
+            ['name' => 'Owner'], // cari berdasarkan name
+            ['description' => 'Owner role'] // opsional, field lain saat create
+        );
+
         // Simpan ke project_roles
         ProjectRole::create([
             'project_id' => $project->id,
             'user_id' => $userId,
-            'role' => 'owner',
+            'role_id' => $role->id,
         ]);
 
         return $project;
