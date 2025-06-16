@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\TaskResource\Pages;
+namespace App\Filament\Resources\TaskScheduleResource\Pages;
 
-use App\Filament\Resources\TaskResource;
+use App\Filament\Resources\TaskScheduleResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateTask extends CreateRecord
+class CreateTaskSchedule extends CreateRecord
 {
-    protected static string $resource = TaskResource::class;
+    protected static string $resource = TaskScheduleResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {

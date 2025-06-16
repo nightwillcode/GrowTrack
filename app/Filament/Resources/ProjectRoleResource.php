@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProjectResource\Pages;
-use App\Filament\Resources\ProjectResource\RelationManagers;
-use App\Models\Project;
+use App\Filament\Resources\ProjectRoleResource\Pages;
+use App\Filament\Resources\ProjectRoleResource\RelationManagers;
+use App\Models\ProjectRole;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,10 +16,12 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use App\Models\User;
+use App\Models\Project;
 
-class ProjectResource extends Resource
+class ProjectRoleResource extends Resource
 {
-    protected static ?string $model = Project::class;
+    protected static ?string $model = ProjectRole::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -27,22 +29,27 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-
-                Textarea::make('description')
-                    ->label('Description')
-                    ->rows(4)
-                    ->maxLength(1000)
-                    ->nullable(),
-
                 Select::make('user_id')
                     ->label('Owner')
-                    ->options(fn () => \App\Models\User::pluck('name', 'id'))
+                    ->options(fn () => User::pluck('name', 'id'))
                     ->searchable()
                     ->required()
                     ->dehydrated(false),
+
+                Select::make('project_id')
+                    ->label('Project')
+                    ->options(fn () => Project::pluck('name', 'id'))
+                    ->searchable()
+                    ->required()
+                    ->dehydrated(false),
+
+                Select::make('role')
+                    ->options([
+                        'owner' => 'Owner',
+                        'admin' => 'Admin',
+                        'member' => 'Member',
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -50,9 +57,9 @@ class ProjectResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('description')->limit(50),
-                TextColumn::make('user.name')->label('Owner')->sortable(),
+                TextColumn::make('user.name')->label('User')->sortable(),
+                TextColumn::make('project.name')->label('Project')->sortable(),
+                TextColumn::make('role')->label('Role')->sortable(),
                 TextColumn::make('created_at')->dateTime()->label('Created'),
             ])
             ->defaultSort('created_at', 'desc')
@@ -79,15 +86,9 @@ class ProjectResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProject::route('/'),
-            'create' => Pages\CreateProject::route('/create'),
-            'edit' => Pages\EditProject::route('/{record}/edit'),
+            'index' => Pages\ListProjectRoles::route('/'),
+            'create' => Pages\CreateProjectRole::route('/create'),
+            'edit' => Pages\EditProjectRole::route('/{record}/edit'),
         ];
     }
-
-    public static function getModel(): string
-    {
-        return Project::class;
-    }
-
 }

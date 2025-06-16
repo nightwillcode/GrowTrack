@@ -35,12 +35,6 @@ class TimerResource extends Resource
                     ->required()
                     ->label('Task'),
 
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->required()
-                    ->label('User'),
-
                 DateTimePicker::make('started_at')
                     ->required(),
 
@@ -61,7 +55,6 @@ class TimerResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('task.name')->label('Task'),
-                TextColumn::make('user.name')->label('User'),
                 TextColumn::make('started_at')->dateTime()->label('Started'),
                 TextColumn::make('stopped_at')->dateTime()->label('Stopped'),
                 TextColumn::make('duration')->label('Duration (s)'),

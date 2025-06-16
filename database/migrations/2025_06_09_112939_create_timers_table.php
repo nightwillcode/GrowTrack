@@ -15,8 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('task_id');
             $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
-            $table->uuid('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('started_at')->nullable();
             $table->timestamp('stopped_at')->nullable();
             $table->integer('duration')->nullable();

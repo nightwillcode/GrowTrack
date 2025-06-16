@@ -11,26 +11,23 @@ class Project extends Model
 {
     use HasFactory;
 
+    // UUID setup
     public $incrementing = false;
     protected $keyType = 'string';
 
+    // Mass assignable fields
     protected $fillable = [
         'name',
         'description',
-        'user_id',
     ];
 
+    // Auto-generate UUID for 'id' when creating
     protected static function booted(): void
     {
-        static::creating(function ($project) {
-            if (!$project->id) {
+        static::creating(function (self $project) {
+            if (empty($project->id)) {
                 $project->id = (string) Str::uuid();
             }
         });
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 }

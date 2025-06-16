@@ -17,7 +17,6 @@ class Timer extends Model
 
     protected $fillable = [
         'task_id',
-        'user_id',
         'started_at',
         'stopped_at',
         'duration',
@@ -49,10 +48,5 @@ class Timer extends Model
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 }

@@ -51,6 +51,16 @@ class TaskResource extends Resource
                     ])
                     ->required(),
 
+                Select::make('user_id')
+                    ->label('Owner')
+                    ->options(fn () => \App\Models\User::pluck('name', 'id'))
+                    ->searchable()
+                    ->required(),
+
+                DatePicker::make('visible_at')
+                    ->label('Visible Date')
+                    ->nullable(),
+
                 DatePicker::make('started_at')
                     ->label('Start Date')
                     ->nullable(),
@@ -68,6 +78,7 @@ class TaskResource extends Resource
                 TextColumn::make('name')->sortable()->searchable(),
                 TextColumn::make('project.name')->label('Project')->sortable(),
                 TextColumn::make('status')->badge()->sortable(),
+                TextColumn::make('visible_at')->date()->label('Visible'),
                 TextColumn::make('started_at')->date()->label('Start'),
                 TextColumn::make('finished_at')->date()->label('Finish'),
             ])

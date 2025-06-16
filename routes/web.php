@@ -7,9 +7,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+$pages = [
+    'dashboard' => 'dashboard',
+    'myTask' => 'mytask',
+    'planning' => 'planning',
+];
+
+foreach ($pages as $route => $view) {
+    Route::get("/$route", fn () => view($view))
+        ->middleware(['auth', 'verified'])
+        ->name($route);
+}
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
