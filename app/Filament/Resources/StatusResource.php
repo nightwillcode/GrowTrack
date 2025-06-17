@@ -31,6 +31,12 @@ class StatusResource extends Resource
                     ->required()
                     ->maxLength(255),
 
+                Textarea::make('color')
+                    ->label('Color')
+                    ->rows(4)
+                    ->maxLength(1000)
+                    ->nullable(),
+
                 Textarea::make('description')
                     ->label('Description')
                     ->rows(4)
@@ -44,6 +50,7 @@ class StatusResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('color')->limit(50),
                 TextColumn::make('description')->limit(50),
                 TextColumn::make('created_at')->dateTime()->label('Created'),
             ])
