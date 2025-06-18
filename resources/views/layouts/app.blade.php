@@ -27,10 +27,22 @@
                 </header>
             @endisset
 
+            @isset($sidebar)
+                <div class="flex">
+                    {{ $sidebar }}
+
+                    <main class="flex-1 p-6">
+                        {{ $slot }}
+                    </main>
+                </div>
+            @else
+                <main class="p-6">
+                    {{ $slot }}
+                </main>
+            @endisset
+
             <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+
         </div>
     </body>
 </html>

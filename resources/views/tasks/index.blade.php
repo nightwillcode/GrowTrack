@@ -1,10 +1,13 @@
 <x-app-layout>
+    <x-slot name="sidebar">
+        <x-sidebar />
+    </x-slot>
     <div class="max-w-[85rem] mx-auto sm:px-6 lg:px-8">
         <div class="font-bold text-xl p-6 text-gray-900 dark:text-gray-100">
             Task Dashboard
         </div>
         <div class="grid sm:grid-cols-1 lg:grid-cols-2 gap-6">
-            @foreach ($tasks as $task)
+            @forelse ($tasks as $task)
                 <div class="w-full border border-gray-300 rounded-lg bg-white p-6">
                     <div class="basis-[70%] flex justify-between items-center gap-6">
                         <div class="text-gray-900 dark:text-gray-100 font-bold text-xl">
@@ -22,7 +25,7 @@
                                         border-{{ $task->status->color }}-300
                                         focus:outline-none focus:ring-2 focus:ring-offset-2">
                                     @foreach ($allStatuses as $status)
-                                        <option class="text-{{$status->color}}-600" value="{{ $status->id }}"
+                                        <option class="text-{{ $status->color }}-600" value="{{ $status->id }}"
                                             @selected($task->status_id == $status->id)>
                                             {{ $status->name }}
                                         </option>
@@ -32,7 +35,11 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="w-full text-center py-8 text-gray-500 dark:text-gray-400">
+                    Tidak ada task ditemukan.
+                </div>
+            @endforelse
         </div>
     </div>
 </x-app-layout>
