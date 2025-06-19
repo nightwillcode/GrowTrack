@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectRole;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -32,7 +34,9 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        return view('projects.show', compact('project'));
+        $tasks = Task::where('project_id', $project->id)->latest()->get();
+        $projectRole = ProjectRole::where('project_id', $project->id)->latest()->get();
+        return view('projects.show', compact('project','tasks','projectRole'));
     }
 
     public function edit(Project $project)
