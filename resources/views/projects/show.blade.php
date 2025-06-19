@@ -22,9 +22,12 @@
             </div>
         </div>
 
+        <div class="my-8 text-center font-bold text-xl">
+            Task List
+        </div>
         <div class="grid sm:grid-cols-1 lg:grid-cols-2 gap-6">
             @forelse ($tasks as $task)
-                <div class="w-full border border-{{ $task->status->color }}-300 rounded-lg bg-white p-6 mt-8">
+                <div class="w-full border border-{{ $task->status->color }}-300 rounded-lg bg-white p-6">
                     <div class="basis-[70%] flex justify-between items-center gap-6">
                         <div>
                             <div class="text-gray-900 dark:text-gray-100 font-bold text-base">
