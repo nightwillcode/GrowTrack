@@ -3,6 +3,18 @@
         <x-sidebar />
     </x-slot>
     <div class="max-w-[85rem] mx-auto sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:justify-end gap-4 sm:gap-6 my-4">
+            <div onclick="window.location.href='{{ route('projectRoles.index') }}?project_id={{ $project->id }}'"
+                class="w-full sm:w-auto sm:max-w-xs border border-gray-300 rounded-lg bg-white p-4 cursor-pointer hover:bg-gray-100 transition">
+                Manage Users
+            </div>
+
+            <div onclick="window.location.href='{{ route('tasks.create') }}'"
+                class="w-full sm:w-auto sm:max-w-xs border border-gray-300 rounded-lg bg-white p-4 cursor-pointer hover:bg-gray-100 transition">
+                New Tasks
+            </div>
+        </div>
+
         <div class="w-full border border-gray-300 rounded-lg bg-white p-6">
             <div class="basis-[70%] flex justify-between items-center gap-6">
                 <div class="text-gray-900 dark:text-gray-100 font-bold text-xl">

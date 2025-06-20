@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use App\Models\User;
 use App\Models\Project;
+use App\Models\Role;
 
 class ProjectRoleResource extends Resource
 {
@@ -30,14 +31,8 @@ class ProjectRoleResource extends Resource
         return $form
             ->schema([
                 Select::make('user_id')
-                    ->label('Owner')
+                    ->label('User')
                     ->options(fn () => User::pluck('name', 'id'))
-                    ->searchable()
-                    ->required(),
-
-                Select::make('status_id')
-                    ->label('Project')
-                    ->options(fn () => Project::pluck('name', 'id'))
                     ->searchable()
                     ->required(),
 
@@ -47,12 +42,10 @@ class ProjectRoleResource extends Resource
                     ->searchable()
                     ->required(),
 
-                Select::make('role')
-                    ->options([
-                        'owner' => 'Owner',
-                        'admin' => 'Admin',
-                        'member' => 'Member',
-                    ])
+                Select::make('role_id')
+                    ->label('Role')
+                    ->options(fn () => Role::pluck('name', 'id'))
+                    ->searchable()
                     ->required(),
             ]);
     }
